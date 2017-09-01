@@ -1,3 +1,6 @@
+## ToDo
+* add `{event: 'request'}` to middleware log
+
 # Kuali Logger
 
 Standardized logger for Kuali applications. The logger simplifies the process of making log output follow the Kuali Logging Standards.
@@ -23,10 +26,6 @@ The logger uses bunyan and related libraries. So bunyan docs can help with most 
 * Ability to obscure headers
 * Ability to exclude headers
 * Standard bunyan interface
-
-## ToDo
-* make name, team, product, environment required fields
-* add `{event: request}` to middleware log
 
 ## Usage
 
@@ -90,6 +89,15 @@ The event parameter is a string used to log events with a unique, searchable id.
 * `report_generated`
 * `notification_sent`
 * `error`
+
+## Logging an error
+The standard bunyan error serializer is available. It can be invoked this way. Always set `event: 'error'` for these.
+
+```js
+if(err) {
+  log.error({ err, event: 'error' }, 'An error occurred')
+}
+```
 
 ## Configure a custom stream
 You can override the default stream configuration with your own stream configuration.

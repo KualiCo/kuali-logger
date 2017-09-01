@@ -46,7 +46,15 @@ function getMiddlewareConfig(config, logger) {
     propertyName: 'requestId',
     logName: 'requestId',
     obscureHeaders: ['Authorization'].concat(config.obscureHeaders || []),
-    excludeHeaders: config.excludeHeaders || []
+    excludeHeaders: config.excludeHeaders || [],
+    additionalRequestFinishData: req => {
+      const extraFields = {
+        event: 'request',
+        tenant: req.headers['x-kuali-tenant'],
+        lane: req.headers['x-kuali-lane']
+      }
+      return extraFields
+    }
   }
 
   const middlewareConfig = Object.assign({}, middleConfig, { logger })
@@ -60,11 +68,7 @@ function getLoggerConfig(config) {
     product: config.product,
     environment: config.environment,
     level: config.level || 'info',
-    serializers: {
-      err: bunyan.stdSerializers.err,
-      res: bunyan.stdSerializers.res,
-      req: proxyReqSerializer
-    },
+    serializers: { err: bunyan.stdSerializers.err },
     streams: [
       {
         level: config.level || 'info',
@@ -76,15 +80,4 @@ function getLoggerConfig(config) {
     ]
   }
   return loggerConfig
-}
-
-function proxyReqSerializer(req) {
-  return Object.assign({}, bunyan.stdSerializers.req(req), addFields(req))
-}
-
-function addFields(req) {
-  return {
-    tenant: req.headers['x-kuali-tenant'],
-    lane: req.headers['x-kuali-lane']
-  }
 }

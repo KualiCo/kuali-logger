@@ -57,11 +57,14 @@ describe('middleware', () => {
         .set('x-kuali-lane', 'lane')
     })
 
-    test('logs kuali tenant', () => {
-      expect(catcher.last.req.tenant).toBe('tenant')
+    test('logs request event', () => {
+      expect(catcher.last.event).toBe('request')
     })
-    test('logs kuali lane', () => {
-      expect(catcher.last.req.lane).toBe('lane')
+    test('logs tenant field', () => {
+      expect(catcher.last.tenant).toBe('tenant')
+    })
+    test('logs lane field', () => {
+      expect(catcher.last.lane).toBe('lane')
     })
   })
 
