@@ -46,7 +46,7 @@ These are the supported configuration options:
 |environment (required)|string|production||
 |level|string|trace, debug, info, warn, error, fatal|info|
 |format|string|short, long, simple, json, bunyan, pretty|json|
-|obscureHeaders|array of strings|['x-newrelic-id', 'ip']|['authorization']|
+|obscureHeaders|array of strings|['x-newrelic-id', 'ip']|['authorization', 'cookie']|
 |excludeHeaders|array of strings|['x-real-ip','x-newrelic-transaction']| []
 |stream|object| ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }``` |bunyan-format stream|
 

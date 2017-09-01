@@ -45,7 +45,9 @@ function getMiddlewareConfig (config, logger) {
     headerName: 'X-Request-Id',
     propertyName: 'requestId',
     logName: 'requestId',
-    obscureHeaders: ['Authorization'].concat(config.obscureHeaders || []),
+    obscureHeaders: ['authorization', 'cookie'].concat(
+      config.obscureHeaders || []
+    ),
     excludeHeaders: config.excludeHeaders || [],
     additionalRequestFinishData: req => {
       const extraFields = {
