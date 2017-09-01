@@ -137,4 +137,6 @@ function courseSerializer(course) {
 const log = require('kuali-logger')(logConfig)
 
 log.addSerializer({ course: courseSerializer })
+
+log.info({ course, event: 'course_created' }, 'New course created')
 ```
