@@ -39,7 +39,7 @@ const log = require('kuali-logger')(config.get('log'))
 These are the supported configuration options:
 
 |Option|Type|Valid values or examples|Default|
-|-|-|-|-|-|
+|-----|-----|-----|-----|-----|
 |name (required)|string|res-coi-production||
 |team (required)|string|res||
 |product (required)|string|coi||
@@ -70,10 +70,9 @@ log.error({ err, event: 'error'}, 'An error occurred')
 ```js
 const express = require('express')
 const log = require('kuali-logger')(config.get('log'))
-const logMiddleware = log.middleware
 
 const app = express()
-app.use(logMiddleware)
+app.use(log.middleware)
 app.get('/', (req, res) => {
   req.log.info('Homepage request')
   res.sendStatus(200)
