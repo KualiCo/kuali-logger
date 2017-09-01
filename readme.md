@@ -99,7 +99,7 @@ if(err) {
 ```
 
 ## Configure a custom stream
-You can override the default stream configuration with your own stream configuration.
+You can override the default stream configuration with your own [stream configuration](https://github.com/trentm/node-bunyan#streams).
 
 ```js
 const streamConfig = {
