@@ -35,71 +35,58 @@ beforeEach(() => {
 })
 
 describe('middleware', () => {
-  let res
   describe('requestId', () => {
-    describe('no requestId', () => {
-      beforeEach(async () => {
-        res = await request(app).get('/')
-      })
-
-      test('sets x-request-id header', () => {
+    test('sets requestId correctly if no existing requestId', done => {
+      request(app).get('/').end((err, res) => {
+        if (err) throw err
         expect(res.headers.hasOwnProperty('x-request-id')).toBe(true)
-      })
-      test('logs requestId', () => {
         expect(catcher.last.req.requestId).not.toBeNull()
+        done()
       })
     })
 
-    describe('existing requestId', () => {
-      beforeEach(async () => {
-        res = await request(app).get('/').set('X-Request-Id', 'test')
-      })
-
-      test('leaves x-request-id header unchanged', () => {
+    test('leaves existing requestId unchanged', done => {
+      request(app).get('/').set('X-Request-Id', 'test').end((err, res) => {
+        if (err) throw err
         expect(res.headers['x-request-id']).toBe('test')
-      })
-      test('logs correct requestId', () => {
         expect(catcher.last.requestId).toBe('test')
+        done()
       })
     })
   })
 
   describe('additional fields', () => {
-    beforeEach(async () => {
-      res = await request(app)
+    test('adds additional fields to log output', done => {
+      request(app)
         .get('/')
         .set('x-kuali-tenant', 'tenant')
         .set('x-kuali-lane', 'lane')
-    })
-
-    test('logs request event', () => {
-      expect(catcher.last.event).toBe('request')
-    })
-    test('logs tenant field', () => {
-      expect(catcher.last.tenant).toBe('tenant')
-    })
-    test('logs lane field', () => {
-      expect(catcher.last.lane).toBe('lane')
+        .end((err, res) => {
+          if (err) throw err
+          expect(catcher.last.event).toBe('request')
+          expect(catcher.last.tenant).toBe('tenant')
+          expect(catcher.last.lane).toBe('lane')
+          done()
+        })
     })
   })
 
   describe('obscureHeaders and excludeHeaders', () => {
-    beforeEach(async () => {
-      res = await request(app)
+    test('obscures and excludes configured headers', done => {
+      request(app)
         .get('/')
         .set('obscure', 'test')
         .set('exclude', 'test')
         .set('Authorization', 'Bearer hey')
-    })
-
-    test('obscures correct headers', () => {
-      expect(catcher.last.req.headers.obscure).toBeNull()
-    })
-    test('excludes correct headers', () => {
-      expect(catcher.last.req.headers.hasOwnProperty('exclude')).toEqual(false)
-    })
-    test('obscures Authorization header', () => {
-      expect(catcher.last.req.headers.authorization).toBeNull()
+        .end((err, res) => {
+          if (err) throw err
+          expect(catcher.last.req.headers.obscure).toBeNull()
+          expect(catcher.last.req.headers.hasOwnProperty('exclude')).toEqual(
+            false
+          )
+          expect(catcher.last.req.headers.authorization).toBeNull()
+          done()
+        })
     })
   })
 })

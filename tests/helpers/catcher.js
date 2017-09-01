@@ -1,17 +1,17 @@
 class Catcher {
-  constructor() {
+  constructor () {
     this.records = []
   }
 
-  write(record) {
+  write (record) {
     this.records.push(record)
   }
 
-  clear() {
+  clear () {
     this.records = []
   }
 
-  get last() {
+  get last () {
     if (this.records.length > 0) {
       return JSON.parse(this.records[this.records.length - 1])
     }

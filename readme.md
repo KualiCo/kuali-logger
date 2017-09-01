@@ -1,5 +1,5 @@
-## ToDo
-* add `{event: 'request'}` to middleware log
+# ToDo
+* add licensing
 
 # Kuali Logger
 

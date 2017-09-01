@@ -26,7 +26,7 @@ module.exports = config => {
   return logger
 }
 
-function validateConfig(config) {
+function validateConfig (config) {
   const requiredOptions = ['name', 'team', 'product', 'environment']
 
   if (!config) {
@@ -40,7 +40,7 @@ function validateConfig(config) {
   })
 }
 
-function getMiddlewareConfig(config, logger) {
+function getMiddlewareConfig (config, logger) {
   const middleConfig = {
     headerName: 'X-Request-Id',
     propertyName: 'requestId',
@@ -61,7 +61,7 @@ function getMiddlewareConfig(config, logger) {
   return middlewareConfig
 }
 
-function getLoggerConfig(config) {
+function getLoggerConfig (config) {
   const loggerConfig = {
     name: config.name,
     team: config.team,

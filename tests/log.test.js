@@ -49,18 +49,18 @@ describe('logger', () => {
 
   describe('required options', () => {
     test('throws error when no config', () => {
-      function createLog() {
-        const log4 = require('../logger')()
+      function createLog () {
+        require('../logger')()
       }
       expect(createLog).toThrow()
     })
 
     const requiredOptions = ['name', 'team', 'product', 'environment']
 
-    function createLog(removeOption) {
+    function createLog (removeOption) {
       const newConfig = Object.assign({ level: 100 }, baseConfig)
       newConfig[removeOption] = null
-      const log4 = require('../logger')(newConfig)
+      require('../logger')(newConfig)
     }
 
     requiredOptions.forEach(option => {
