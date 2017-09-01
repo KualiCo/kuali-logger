@@ -40,15 +40,15 @@ These are the supported configuration options:
 
 | Option | Type | Valid values or examples | Default |
 | --- | :---: | --- | :---: |
-| name (required) | string | res-coi-production | test |
-| team (required) | string | res | |
-| product (required) | string | coi | |
-| environment (required) | string | production | |
-| level | string | trace, debug, info, warn, error, fatal | info |
-| format | string | short, long, simple, json, bunyan, pretty | json |
-| obscureHeaders | array of strings | ['x-newrelic-id', 'ip'] | ['authorization', 'cookie'] |
-| excludeHeaders | array of strings | ['x-real-ip','x-newrelic-transaction'] | [] |
-| stream | object |  ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }```  | bunyan-format stream |
+| `name` (required) | string | res-coi-production | test |
+| `team` (required) | string | res | |
+| `product` (required) | string | coi | |
+| `environment` (required) | string | production | |
+| `level` | string | `trace`, `debug`, `info`, `warn`, `error`, `fatal` | `info` |
+| `format` | string | `short`, `long`, `simple`, `json`, `bunyan`, `pretty` | `json` |
+| `obscureHeaders` | array of strings | `['x-newrelic-id', 'ip']` | `['authorization', 'cookie']` |
+| `excludeHeaders` | array of strings | `['x-real-ip','x-newrelic-transaction']` | `[]` |
+| `stream` | object |  ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }```  | bunyan-format stream |
 
 ### Log Example
 
