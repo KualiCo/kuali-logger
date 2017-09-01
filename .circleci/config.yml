@@ -37,7 +37,7 @@ jobs:
       - checkout
       - run:
           name: Publish to npm
-          command: echo going to publish here
+          command: yarn publish --production
 workflows:
   version: 2
   test_deploy:
