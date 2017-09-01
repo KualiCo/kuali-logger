@@ -17,7 +17,7 @@ The logger uses bunyan and related libraries. So bunyan docs can help with most 
 * Node 6 or later
 
 ## Features
-* Outputs log to Kuali Logging Standards
+* Logs to Kuali Logging Standards
 * Loggly-ready json output
 * pretty output format for development
 * Ability to add custom serializers
