@@ -40,10 +40,10 @@ These are the supported configuration options:
 
 | Option | Type | Valid values or examples | Default |
 | --- | :---: | --- | :---: |
-| `name` (required) | string | res-coi-production | test |
-| `team` (required) | string | res | |
-| `product` (required) | string | coi | |
-| `environment` (required) | string | production | |
+| `name (required)` | string | res-coi-production | |
+| `team (required)` | string | res | |
+| `product (required)` | string | coi | |
+| `environment (required)` | string | production | |
 | `level` | string | `trace`, `debug`, `info`, `warn`, `error`, `fatal` | `info` |
 | `format` | string | `short`, `long`, `simple`, `json`, `bunyan`, `pretty` | `json` |
 | `obscureHeaders` | array of strings | `['x-newrelic-id', 'ip']` | `['authorization', 'cookie']` |
