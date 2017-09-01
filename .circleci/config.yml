@@ -1,0 +1,31 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/kuali-logger
+    docker:
+      - image: circleci/node:6
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: Configure private package registry
+          command: |
+            echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
+            npm config set @kuali:registry='https://npm.kuali.co'
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run tests
+          command: yarn test
+      - run:
+          name: Publish code coverage results
+          command: yarn coverage:publish
+      - store_artifacts:
+          path: coverage
+          destination: coverage
