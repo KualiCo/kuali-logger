@@ -39,7 +39,7 @@ const log = require('kuali-logger')(config.get('log'))
 These are the supported configuration options:
 
 | Option | Type | Valid values or examples | Default |
-| --- | --- | --- | --- |
+| --- | :---: | --- | :---: |
 | name (required) | string | res-coi-production | test |
 | team (required) | string | res | |
 | product (required) | string | coi | |
@@ -49,12 +49,6 @@ These are the supported configuration options:
 | obscureHeaders | array of strings | ['x-newrelic-id', 'ip'] | ['authorization', 'cookie'] |
 | excludeHeaders | array of strings | ['x-real-ip','x-newrelic-transaction'] | [] |
 | stream | object |  ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }```  | bunyan-format stream |
-
-
-| Command | Description |
-| --- | --- |
-| git status | List all new or modified files |
-| git diff | Show file differences that haven't been staged |
 
 ### Log Example
 
