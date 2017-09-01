@@ -37,15 +37,30 @@ beforeEach(() => {
 describe('middleware', () => {
   let res
   describe('requestId', () => {
-    beforeEach(async () => {
-      res = await request(app).get('/')
+    describe('no requestId', () => {
+      beforeEach(async () => {
+        res = await request(app).get('/')
+      })
+
+      test('sets x-request-id header', () => {
+        expect(res.headers.hasOwnProperty('x-request-id')).toBe(true)
+      })
+      test('logs requestId', () => {
+        expect(catcher.last.req.requestId).not.toBeNull()
+      })
     })
 
-    test('sets x-request-id header', () => {
-      expect(res.headers.hasOwnProperty('x-request-id')).toBe(true)
-    })
-    test('logs requestId', () => {
-      expect(catcher.last.req.requestId).not.toBeNull()
+    describe('existing requestId', () => {
+      beforeEach(async () => {
+        res = await request(app).get('/').set('X-Request-Id', 'test')
+      })
+
+      test('leaves x-request-id header unchanged', () => {
+        expect(res.headers['x-request-id']).toBe('test')
+      })
+      test('logs correct requestId', () => {
+        expect(catcher.last.requestId).toBe('test')
+      })
     })
   })
 
