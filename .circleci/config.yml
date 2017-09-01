@@ -35,7 +35,9 @@ jobs:
       - image: circleci/node:6
     steps:
       - checkout
-      - run: 'echo deploy'
+      - run:
+          name: Publish to npm
+          command: echo going to publish here
 workflows:
   version: 2
   test_deploy:
@@ -43,7 +45,7 @@ workflows:
       - test
       - deploy:
           requires:
-            - build_test
+            - test
           filters:
             branches:
               only: master
