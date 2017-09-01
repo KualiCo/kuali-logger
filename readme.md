@@ -39,7 +39,7 @@ const log = require('kuali-logger')(config.get('log'))
 These are the supported configuration options:
 
 | Option | Type | Valid values or examples | Default |
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | name (required) | string | res-coi-production | test |
 
 
