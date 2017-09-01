@@ -41,11 +41,6 @@ These are the supported configuration options:
 | Option | Type | Valid values or examples | Default |
 | --- | --- | --- | --- |
 | name (required) | string | res-coi-production | test |
-
-
-
-
-
 | team (required) | string | res | |
 | product (required) | string | coi | |
 | environment (required) | string | production | |
