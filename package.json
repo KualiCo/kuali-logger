@@ -1,5 +1,5 @@
 {
-  "name": "@kuali/logger",
+  "name": "@kuali/kuali-logger",
   "version": "0.0.2",
   "description": "Standardized logger for Kuali apps",
   "main": "logger.js",
