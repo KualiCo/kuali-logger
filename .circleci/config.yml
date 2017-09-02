@@ -36,6 +36,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Configure private package registry
+          command: |
+            echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
+            npm config set @kuali:registry='https://npm.kuali.co'
+      - run:
           name: Publish to npm
           command: npm publish
 workflows:
