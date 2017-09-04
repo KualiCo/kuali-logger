@@ -3,12 +3,5 @@
     "lint": {
       "engine": "standard"
     }
-  },
-  "dependencies": {
-    "mute": [
-    ]
-  },
-  "test": [
-    "**/tests/**"
-  ]
+  }
 }
