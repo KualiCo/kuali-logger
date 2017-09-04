@@ -9,13 +9,17 @@ const baseConfig = {
 
 const log = require('../logger')(baseConfig)
 
-log.streams = []
-log.addStream({
-  name: 'testStream',
-  stream: catcher,
-  level: 'debug',
-  outputFormat: 'json'
-})
+function initTestStream (log) {
+  log.streams = []
+  log.addStream({
+    name: 'testStream',
+    stream: catcher,
+    level: 'debug',
+    outputFormat: 'json'
+  })
+}
+
+initTestStream(log)
 
 beforeEach(() => {
   catcher.clear()
@@ -79,6 +83,32 @@ describe('logger', () => {
       )
       log3.info('test')
       expect('no errors')
+    })
+  })
+
+  describe('src', () => {
+    test('src not output by default', () => {
+      log.info('test')
+      expect(catcher.last.hasOwnProperty('src')).toBe(false)
+    })
+
+    test('output src object', () => {
+      const log4 = require('../logger')(
+        Object.assign({}, baseConfig, { src: true, level: 100 })
+      )
+      initTestStream(log4)
+      log4.info('test')
+      expect(catcher.last.hasOwnProperty('src')).toBe(true)
+    })
+  })
+
+  describe('error', () => {
+    test('logs standard serialized error', () => {
+      const errMessage = 'An error occurred'
+      const err = new Error(errMessage)
+      log.error({ err, event: 'error' })
+      expect(catcher.last.msg).toBe(errMessage)
+      expect(catcher.last.event).toBe('error')
     })
   })
 })

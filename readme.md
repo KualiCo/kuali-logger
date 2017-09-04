@@ -38,35 +38,54 @@ const log = require('kuali-logger')(config.get('log'))
 
 These are the supported configuration options:
 
-| Option | Type | Valid values or examples | Default |
-| --- | :---: | --- | :---: |
-| `name (required)` | string | res-coi-production | |
-| `team (required)` | string | res | |
-| `product (required)` | string | coi | |
-| `environment (required)` | string | production | |
-| `level` | string | `trace`, `debug`, `info`, `warn`, `error`, `fatal` | `info` |
-| `format` | string | `short`, `long`, `simple`, `json`, `bunyan`, `pretty` | `json` |
-| `obscureHeaders` | array of strings | `['x-newrelic-id', 'ip']` | `['authorization', 'cookie']` |
-| `excludeHeaders` | array of strings | `['x-real-ip','x-newrelic-transaction']` | `[]` |
-| `stream` | object |  ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }```  | bunyan-format stream |
+| Option | Type | Valid values or examples | Default | Required |
+| --- | :---: | --- | :---: | :---: |
+| `name` | string | res-coi-production | | X |
+| `team` | string | res | | X |
+| `product` | string | coi | | X |
+| `environment` | string | production | | X |
+| `level` | string | `trace`, `debug`, `info`, `warn`, `error`, `fatal` | `info` ||
+| `format` | string | `short`, `long`, `simple`, `json`, `bunyan`, `pretty` | `json` ||
+| `obscureHeaders` | array of strings | `['x-newrelic-id', 'ip']` | `['authorization', 'cookie']` ||
+| `excludeHeaders` | array of strings | `['x-real-ip','x-newrelic-transaction']` | `[]` ||
+| `stream` | object |  ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }```  | bunyan-format stream ||
+| `src` | boolean | false, true *(Slows output, don't use in production)* | false ||
 
 ### Log Example
 
 ```js
 const logConfig = {
-  name: 'res-coi-production',
-  team: 'res',
-  product: 'coi',
+  name: 'stu-cm-production',
+  team: 'stu',
+  product: 'cm',
   environment: 'production'
 }
 const log = require('kuali-logger')(logConfig)
 
-log.info({ event: 'user_login_failed' }, 'User login failed')
+log.info({ event: 'new_course_created' }, 'New course created')
+```
 
-log.error({ err, event: 'error'}, 'An error occurred')
+#### Output
+
+```json
+{
+  "name": "stu-cm-production",
+  "team": "stu",
+  "product": "cm",
+  "environment": "production",
+  "hostname": "230ff563d429",
+  "pid": 71132,
+  "level": "INFO",
+  "event": "course_create",
+  "msg": "New course created",
+  "time": "2017-09-04T19:04:26.481Z",
+  "v": 0
+}
 ```
 
 ### Middleware Example
+Middleware log events will always add `{ msg: request finished, event: request }` to the log entry.
+
 ```js
 const express = require('express')
 const log = require('kuali-logger')(config.get('log'))
@@ -74,9 +93,52 @@ const log = require('kuali-logger')(config.get('log'))
 const app = express()
 app.use(log.middleware)
 app.get('/', (req, res) => {
-  req.log.info('Homepage request')
+  req.log.info()
   res.sendStatus(200)
 })
+```
+
+#### Output
+
+```js
+{
+"name": "fin-accounts-production",
+"team": "fin",
+"product": "accounts",
+"environment": "production",
+"hostname": "230ff563d429",
+"pid": 71132,
+"requestId": "a4ee9850-91a9-11e7-a102-2bb7f248d18e",
+"level": "INFO",
+"res":
+  { "statusCode": 200,
+    "header": "HTTP/1.1 200 OK
+      X-Request-Id: a4ee9850-91a9-11e7-a102-2bb7f248d18e
+      Content-Type: text/plain; charset=utf-8
+      Content-Length: 2
+      ETag: W2-nOO9QiTIwXgNtWtBJezz8kv3SLc
+      Date: Mon, 04 Sep 2017 19:45:46 GMT
+      Connection: keep-alive }",
+"duration": 0.5717479999999999,
+"req":
+  { "method": "GET",
+    "url": "/",
+    "headers":
+    { "host": "127.0.0.1:59758",
+      "accept-encoding": "gzip, deflate",
+      "user-agent": "node-superagent/3.6.0",
+      "x-kuali-tenant": "iu",
+      "x-kuali-lane": "prd",
+      "connection": "close" },
+    "query": {},
+    "remoteAddress": "::ffff:127.0.0.1",
+    "remotePort": 59759 },
+"event": "request",
+"tenant": "iu",
+"lane": "prd",
+"msg": "request finish",
+"time": "2017-09-04T19:45:46.070Z",
+"v": 0 }
 ```
 
 ## Events
@@ -97,6 +159,36 @@ if(err) {
   log.error({ err, event: 'error' }, 'An error occurred')
 }
 ```
+
+#### Output
+
+```js
+{
+  "name": "res-coi-production",
+  "team": "res",
+  "product": "coi",
+  "environment": "production",
+  "hostname": "230ff563d429",
+  "pid": 71132,
+  "level": "ERROR",
+  "err": {
+    "message": "An error occurred",
+    "name": "Error",
+    "stack": "Error: An error occurred
+        at Object.test (\/tests\/log.test.js:87:19)
+        at Object.asyncFn (\/node_modules\/jest-jasmine2\/build\/jasmine-async.js:68:30)
+        at e (\/node_modules\/jest-jasmine2\/build\/queueRunner.js:38:12)
+        at mapper (\/node_modules\/jest-jasmine2\/build\/queueRunner.js:31:21)
+        at Promise.resolve.then.el (\/node_modules\/p-map\/index.js:42:16)
+        at process._tickCallback (internal\/process\/next_tick.js:109:7)"
+  },
+  "event": "error",
+  "msg": "An error occurred",
+  "time": "2017-09-04T18:19:41.193Z",
+  "v": 0
+}
+```
+
 
 ## Configure a custom stream
 You can override the default stream configuration with your own [stream configuration](https://github.com/trentm/node-bunyan#streams).
