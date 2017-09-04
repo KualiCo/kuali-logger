@@ -41,13 +41,13 @@ function validateConfig (config) {
 }
 
 function getMiddlewareConfig (config, logger) {
+  const alwaysObscureHeaders = ['authorization', 'cookie']
+
   const middleConfig = {
     headerName: 'X-Request-Id',
     propertyName: 'requestId',
     logName: 'requestId',
-    obscureHeaders: ['authorization', 'cookie'].concat(
-      config.obscureHeaders || []
-    ),
+    obscureHeaders: alwaysObscureHeaders.concat(config.obscureHeaders || []),
     excludeHeaders: config.excludeHeaders || [],
     additionalRequestFinishData: req => {
       const extraFields = {
@@ -79,7 +79,8 @@ function getLoggerConfig (config) {
           levelInString: true
         })
       }
-    ]
+    ],
+    src: config.src || false
   }
   return loggerConfig
 }

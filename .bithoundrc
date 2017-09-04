@@ -1,14 +1,7 @@
 {
   "critics": {
     "lint": {
-      "engine": "standard"
+      "engine": "none"
     }
-  },
-  "dependencies": {
-    "mute": [
-    ]
-  },
-  "test": [
-    "**/tests/**"
-  ]
+  }
 }

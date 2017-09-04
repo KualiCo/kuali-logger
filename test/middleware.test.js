@@ -25,8 +25,8 @@ const log = require('../logger')({
 const app = express()
 app.use(log.middleware)
 app.get('/', (req, res) => {
-  req.log.info('hey')
-  res.sendStatus(200)
+  req.log.info()
+  res.send('ok')
 })
 
 beforeEach(() => {
