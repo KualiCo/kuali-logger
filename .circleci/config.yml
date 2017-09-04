@@ -36,6 +36,15 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Remove unneeded files
+          command: |
+            rm -rfv .circleci
+            rm .bithoundrc
+            rm .nvmrc
+            rm .eslintrc
+            rm .gitignore
+            rm -rfv test
+      - run:
           name: Configure private package registry
           command: |
             echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
