@@ -19,7 +19,7 @@ The logger uses bunyan and related libraries. So bunyan docs can help with most 
 * Node 6 or later
 
 ## Features
-* Logs to Kuali Logging Standards
+* Follows [Kuali Logging Standards](https://docs.google.com/document/d/1QyKF5EM7QnlQsmIDxtShCyBkJdTI_77WY7EoVLX2Fdg/edit#)
 * Loggly-ready json output
 * pretty output format for development
 * Ability to add custom serializers
@@ -28,6 +28,7 @@ The logger uses bunyan and related libraries. So bunyan docs can help with most 
 * Ability to obscure headers
 * Ability to exclude headers
 * Standard bunyan interface
+* Ability to export src info *(don't use in production*)
 
 ## Usage
 
@@ -64,7 +65,7 @@ const logConfig = {
 }
 const log = require('kuali-logger')(logConfig)
 
-log.info({ event: 'new_course_created' }, 'New course created')
+log.info({ event: 'course_create' }, 'New course created')
 ```
 
 #### Output
@@ -120,7 +121,7 @@ app.get('/', (req, res) => {
       Content-Length: 2
       ETag: W2-nOO9QiTIwXgNtWtBJezz8kv3SLc
       Date: Mon, 04 Sep 2017 19:45:46 GMT
-      Connection: keep-alive }",
+      Connection: keep-alive",
 "duration": 0.5717479999999999,
 "req":
   { "method": "GET",
@@ -145,12 +146,12 @@ app.get('/', (req, res) => {
 
 ## Events
 The event parameter is a string used to log events with a unique, searchable id. A list of events is maintained in the Logging Standards. Examples include:
-* `user_login_succeeded`
-* `user_login_failed`
-* `course_created`
-* `protocol_viewed`
-* `report_generated`
-* `notification_sent`
+* `login_success`
+* `login_failure`
+* `course_create`
+* `protocol_read`
+* `report_create`
+* `notification_send_success`
 * `error`
 
 ## Logging an error
@@ -223,14 +224,14 @@ You can use the standard bunyan method to [add a custom serializer](https://gith
 function courseSerializer(course) {
   return {
     title: course.title,
-    submittedDate: course.submittedDate,
+    createdAt: course.createdAt,
     author: course.author
   }
 }
 
-const log = require('kuali-logger')(logConfig)
+const log = require('kuali-logger')(config.get('log'))
 
 log.addSerializer({ course: courseSerializer })
 
-log.info({ course, event: 'course_created' }, 'New course created')
+log.info({ course, event: 'course_create' }, 'New course created')
 ```
