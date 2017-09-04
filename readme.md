@@ -1,6 +1,3 @@
-# ToDo
-* add licensing
-
 # Kuali Logger
 
 Standardized logger for Kuali applications. The logger simplifies the process of making log output follow the Kuali Logging Standards.
