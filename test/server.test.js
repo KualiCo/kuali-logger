@@ -7,7 +7,7 @@ const baseConfig = {
   environment: 'testEnvironment'
 }
 
-const log = require('../logger')(baseConfig)
+const log = require('../lib')(baseConfig)
 
 function initTestStream (log) {
   log.streams = []
@@ -25,7 +25,7 @@ beforeEach(() => {
   catcher.clear()
 })
 
-describe('logger', () => {
+describe('server logger', () => {
   describe('outputs standard fields', () => {
     beforeEach(() => {
       log.info({ event: 'what' }, 'hey')
@@ -54,7 +54,7 @@ describe('logger', () => {
   describe('required options', () => {
     test('throws error when no config', () => {
       function createLog () {
-        require('../logger')()
+        require('../lib')()
       }
       expect(createLog).toThrow()
     })
@@ -64,7 +64,7 @@ describe('logger', () => {
     function createLog (removeOption) {
       const newConfig = Object.assign({ level: 100 }, baseConfig)
       newConfig[removeOption] = null
-      require('../logger')(newConfig)
+      require('../lib')(newConfig)
     }
 
     requiredOptions.forEach(option => {
@@ -78,7 +78,7 @@ describe('logger', () => {
 
   describe('pretty', () => {
     test('create pretty stream', () => {
-      const log3 = require('../logger')(
+      const log3 = require('../lib')(
         Object.assign({}, baseConfig, { format: 'pretty', level: 100 })
       )
       log3.info('test')
@@ -93,7 +93,7 @@ describe('logger', () => {
     })
 
     test('output src object', () => {
-      const log4 = require('../logger')(
+      const log4 = require('../lib')(
         Object.assign({}, baseConfig, { src: true, level: 100 })
       )
       initTestStream(log4)

@@ -12,7 +12,7 @@ const stream = {
 const obscureHeaders = ['obscure']
 const excludeHeaders = ['exclude']
 
-const log = require('../logger')({
+const log = require('../lib')({
   name: 'testLogger',
   team: 'testTeam',
   product: 'testProduct',

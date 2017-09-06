@@ -28,7 +28,7 @@ The logger uses bunyan and related libraries. So bunyan docs can help with most 
 * Ability to obscure headers
 * Ability to exclude headers
 * Standard bunyan interface
-* Ability to export src info *(don't use in production*)
+* Ability to export src info *(don't use in production)*
 
 ## Usage
 
