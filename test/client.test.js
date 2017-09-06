@@ -5,7 +5,7 @@ let unhookIntercept
 const originalRelease = process.release
 
 beforeAll(() => {
-  process.release = { name: 'not node' }
+  process.release = undefined
   log = require('../lib')()
 
   unhookIntercept = intercept(text => {
