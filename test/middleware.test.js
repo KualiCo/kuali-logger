@@ -62,7 +62,7 @@ describe('middleware', () => {
         .set('x-kuali-lane', 'lane')
         .end((err, res) => {
           if (err) throw err
-          expect(catcher.last.event).toBe('request')
+          expect(catcher.last.event).toBe('REQUEST')
           done()
         })
     })
