@@ -65,7 +65,7 @@ const logConfig = {
 }
 const log = require('kuali-logger')(logConfig)
 
-log.info({ event: 'COURSE_CREATED' }, 'New course created')
+log.info({ event: 'COURSE_CREATE' }, 'New course create')
 ```
 
 #### Output
@@ -146,12 +146,12 @@ app.get('/', (req, res) => {
 
 ## Events
 The event parameter is a string used to log events with a unique, searchable id. A list of events is maintained in the Logging Standards. Examples include:
-* `LOGIN_SUCCEEDED`
-* `LOGIN_FAILED`
-* `COURSE_CREATED`
+* `LOGIN_SUCCESS`
+* `LOGIN_FAILURE`
+* `COURSE_CREATE`
 * `PROTOCOL_READ`
-* `REPORT_CREATED`
-* `NOTIFICATION_SEND_SUCCEEDED`
+* `REPORT_CREATE`
+* `NOTIFICATION_SEND_SUCCESS`
 * `ERROR`
 * `REQUEST`
 
@@ -234,5 +234,5 @@ const log = require('kuali-logger')(config.get('log'))
 
 log.addSerializer({ course: courseSerializer })
 
-log.info({ course, event: 'COURSE_CREATED' }, 'New course created')
+log.info({ course, event: 'COURSE_CREATE' }, 'New course create')
 ```
