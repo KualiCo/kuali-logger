@@ -1,6 +1,6 @@
 {
   "name": "@kuali/kuali-logger",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Standardized logger for Kuali apps",
   "main": "lib/index.js",
   "scripts": {
@@ -11,6 +11,8 @@
     "standard": "standard",
     "standard:fix": "standard --fix"
   },
+  "repository": "https://github.com/KualiCo/kuali-logger",
+  "author": "kuali",
   "license": "AGPL-3.0",
   "engines": {
     "node": ">=6",

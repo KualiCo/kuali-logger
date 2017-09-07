@@ -63,8 +63,6 @@ describe('middleware', () => {
         .end((err, res) => {
           if (err) throw err
           expect(catcher.last.event).toBe('request')
-          expect(catcher.last.tenant).toBe('tenant')
-          expect(catcher.last.lane).toBe('lane')
           done()
         })
     })

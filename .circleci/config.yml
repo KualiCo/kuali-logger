@@ -45,10 +45,9 @@ jobs:
             rm .gitignore
             rm -rfv test
       - run:
-          name: Configure private package registry
+          name: Configure public package registry
           command: |
-            echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
-            npm config set @kuali:registry='https://npm.kuali.co'
+            echo "//registry.npmjs.org/:_authToken=\"$PUBLIC_NPM_TOKEN\"" > .npmrc
       - run:
           name: Publish to npm
           command: npm publish
