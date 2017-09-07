@@ -11,6 +11,8 @@
     "standard": "standard",
     "standard:fix": "standard --fix"
   },
+  "repository": "https://github.com/KualiCo/kuali-logger",
+  "author": "kuali",
   "license": "AGPL-3.0",
   "engines": {
     "node": ">=6",
