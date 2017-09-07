@@ -136,7 +136,7 @@ app.get('/', (req, res) => {
     "query": {},
     "remoteAddress": "::ffff:127.0.0.1",
     "remotePort": 59759 },
-"event": "request",
+"event": "REQUEST",
 "tenant": "iu",
 "lane": "prd",
 "msg": "request finish",
