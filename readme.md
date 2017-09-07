@@ -186,7 +186,7 @@ if(err) {
         at Promise.resolve.then.el (\/node_modules\/p-map\/index.js:42:16)
         at process._tickCallback (internal\/process\/next_tick.js:109:7)"
   },
-  "event": "error",
+  "event": "ERROR",
   "msg": "An error occurred",
   "time": "2017-09-04T18:19:41.193Z",
   "v": 0
