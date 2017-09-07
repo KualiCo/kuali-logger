@@ -65,7 +65,7 @@ const logConfig = {
 }
 const log = require('kuali-logger')(logConfig)
 
-log.info({ event: 'course_create' }, 'New course created')
+log.info({ event: 'COURSE_CREATED' }, 'New course created')
 ```
 
 #### Output
@@ -79,7 +79,7 @@ log.info({ event: 'course_create' }, 'New course created')
   "hostname": "230ff563d429",
   "pid": 71132,
   "level": "INFO",
-  "event": "course_create",
+  "event": "COURSE_CREATED",
   "msg": "New course created",
   "time": "2017-09-04T19:04:26.481Z",
   "v": 0
@@ -87,7 +87,7 @@ log.info({ event: 'course_create' }, 'New course created')
 ```
 
 ### Middleware Example
-Middleware log events will always add `{ msg: request finished, event: request }` to the log entry.
+Middleware log events will always add `{ msg: request finished, event: REQUEST }` to the log entry.
 
 ```js
 const express = require('express')
@@ -146,20 +146,21 @@ app.get('/', (req, res) => {
 
 ## Events
 The event parameter is a string used to log events with a unique, searchable id. A list of events is maintained in the Logging Standards. Examples include:
-* `login_success`
-* `login_failure`
-* `course_create`
-* `protocol_read`
-* `report_create`
-* `notification_send_success`
-* `error`
+* `LOGIN_SUCCEEDED`
+* `LOGIN_FAILED`
+* `COURSE_CREATED`
+* `PROTOCOL_READ`
+* `REPORT_CREATED`
+* `NOTIFICATION_SEND_SUCCEEDED`
+* `ERROR`
+* `REQUEST`
 
 ## Logging an error
-The standard bunyan error serializer is available. It can be invoked this way. Always set `event: 'error'` for these.
+The standard bunyan error serializer is available. It can be invoked this way. Always set `event: 'ERROR'` for these.
 
 ```js
 if(err) {
-  log.error({ err, event: 'error' }, 'An error occurred')
+  log.error({ err, event: 'ERROR' }, 'An error occurred')
 }
 ```
 
@@ -233,5 +234,5 @@ const log = require('kuali-logger')(config.get('log'))
 
 log.addSerializer({ course: courseSerializer })
 
-log.info({ course, event: 'course_create' }, 'New course created')
+log.info({ course, event: 'COURSE_CREATED' }, 'New course created')
 ```
