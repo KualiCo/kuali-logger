@@ -33,8 +33,6 @@ jobs:
           path: coverage
           destination: coverage
       - run: ./cc-test-reporter after-build -t lcov --exit-code $?
-      - run: ./cc-test-reporter format-coverage -t lcov $CIRCLE_ARTIFACTS/coverage/.resultset.json
-      - run: ./cc-test-reporter upload-coverage
   deploy:
     working_directory: ~/kuali-logger
     docker:
