@@ -4,13 +4,10 @@ jobs:
     working_directory: ~/kuali-logger
     docker:
       - image: circleci/node:6
-      - image: notnoopci/php:7.1.5-browsers
     steps:
       - checkout
       - restore_cache:
           key: v1-dependency-cache-{{ checksum "yarn.lock" }}
-      - run: sudo pecl channel-update pecl.php.net
-      - run: sudo pecl install xdebug && sudo docker-php-ext-enable xdebug
       - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
       - run: chmod +x ./cc-test-reporter
       - run: ./cc-test-reporter before-build
