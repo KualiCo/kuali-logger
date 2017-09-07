@@ -13,10 +13,7 @@ jobs:
       - run: sudo pecl install xdebug && sudo docker-php-ext-enable xdebug
       - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
       - run: chmod +x ./cc-test-reporter
-      - run: sudo mkdir -p $CIRCLE_TEST_REPORTS/phpunit
       - run: ./cc-test-reporter before-build
-      - run: sudo vendor/bin/phpunit --coverage-clover clover.xml
-      - run: ./cc-test-reporter after-build -t clover --exit-code $?
       - run:
           name: Configure private package registry
           command: |
@@ -38,6 +35,7 @@ jobs:
       - store_artifacts:
           path: coverage
           destination: coverage
+      - run: ./cc-test-reporter after-build -t lcov --exit-code $?
       - run: ./cc-test-reporter format-coverage -t lcov $CIRCLE_ARTIFACTS/coverage/.resultset.json
       - run: ./cc-test-reporter upload-coverage
   deploy:
