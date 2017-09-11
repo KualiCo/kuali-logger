@@ -79,7 +79,7 @@ log.info({ event: 'COURSE_CREATE' }, 'New course create')
   "hostname": "230ff563d429",
   "pid": 71132,
   "level": "INFO",
-  "event": "COURSE_CREATED",
+  "event": "COURSE_CREATE",
   "msg": "New course created",
   "time": "2017-09-04T19:04:26.481Z",
   "v": 0
@@ -150,7 +150,7 @@ The event parameter is a string used to log events with a unique, searchable id.
 * `LOGIN_FAILURE`
 * `COURSE_CREATE`
 * `PROTOCOL_READ`
-* `REPORT_CREATE`
+* `REPORT_DELETE`
 * `NOTIFICATION_SEND_SUCCESS`
 * `ERROR`
 * `REQUEST`
