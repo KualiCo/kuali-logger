@@ -7,7 +7,7 @@
 
 Standardized logger for Kuali applications. The logger simplifies the process of making log output follow the Kuali Logging Standards.
 
-The logger uses bunyan and related libraries. So bunyan docs can help with most of the configuration issues.
+The logger uses Bunyan and related libraries. Bunyan docs can help with most configuration issues.
 
 ## Bunyan Docs
 * [bunyan](https://github.com/trentm/node-bunyan)
@@ -24,7 +24,7 @@ The logger uses bunyan and related libraries. So bunyan docs can help with most 
 * pretty output format for development
 * Ability to add custom serializers
 * Ability to replace default stream
-* Express-ready middleware for rich request/response log output
+* Express-ready middleware for simple request/response log output
 * Ability to obscure headers
 * Ability to exclude headers
 * Standard bunyan interface
@@ -87,7 +87,7 @@ log.info({ event: 'COURSE_CREATE' }, 'New course create')
 ```
 
 ### Middleware Example
-Middleware log events will always add `{ msg: request finished, event: REQUEST }` to the log entry.
+Adding the logger middleware will automatically log all request and response events. The log entries will always contain `{ msg: request finished, event: REQUEST }`.
 
 ```js
 const express = require('express')
@@ -95,10 +95,6 @@ const log = require('kuali-logger')(config.get('log'))
 
 const app = express()
 app.use(log.middleware)
-app.get('/', (req, res) => {
-  req.log.info()
-  res.sendStatus(200)
-})
 ```
 
 #### Output
@@ -145,7 +141,7 @@ app.get('/', (req, res) => {
 ```
 
 ## Events
-The event parameter is a string used to log events with a unique, searchable id. A list of events is maintained in the Logging Standards. Examples include:
+The event parameter is a string constant used to log events with a unique, searchable id. A list of events is maintained in the Kuali Logging Standards. Examples include:
 * `LOGIN_SUCCESS`
 * `LOGIN_FAILURE`
 * `COURSE_CREATE`

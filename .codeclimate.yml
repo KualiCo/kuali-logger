@@ -1,6 +1,4 @@
 engines:
-  nodesecurity:
-    enabled: true
   git-legal:
    enabled: true
   eslint:
