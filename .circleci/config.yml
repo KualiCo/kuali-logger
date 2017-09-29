@@ -8,9 +8,12 @@ jobs:
       - checkout
       - restore_cache:
           key: v1-dependency-cache-{{ checksum "yarn.lock" }}
-      - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-      - run: chmod +x ./cc-test-reporter
-      - run: ./cc-test-reporter before-build
+      - run:
+          name: Setup and initialize Code Climate test reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+            ./cc-test-reporter before-build
       - run:
           name: Configure private package registry
           command: |
@@ -29,25 +32,18 @@ jobs:
       - run:
           name: Publish code coverage results
           command: yarn coverage:publish
+      - run:
+          name: Report test results to Code Climate
+          command: ./cc-test-reporter after-build -t lcov --exit-code $?
       - store_artifacts:
           path: coverage
           destination: coverage
-      - run: ./cc-test-reporter after-build -t lcov --exit-code $?
   deploy:
     working_directory: ~/kuali-logger
     docker:
       - image: circleci/node:6
     steps:
       - checkout
-      - run:
-          name: Remove unneeded files
-          command: |
-            rm -rfv .circleci
-            rm .bithoundrc
-            rm .nvmrc
-            rm .eslintrc
-            rm .gitignore
-            rm -rfv test
       - run:
           name: Configure public package registry
           command: |
