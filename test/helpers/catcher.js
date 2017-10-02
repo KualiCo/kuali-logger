@@ -20,6 +20,6 @@ class Catcher {
   }
 }
 
-var catcher = new Catcher()
+const catcher = new Catcher()
 
 module.exports = catcher

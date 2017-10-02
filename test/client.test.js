@@ -1,10 +1,10 @@
 'use strict'
 
-var intercept = require('./helpers/intercept-stdout')
-var capturedText = ''
-var log
-var unhookIntercept
-var originalRelease = process.release
+const intercept = require('./helpers/intercept-stdout')
+let capturedText = ''
+let log
+let unhookIntercept
+let originalRelease = process.release
 
 beforeAll(() => {
   process.release = undefined
@@ -25,8 +25,8 @@ beforeEach(() => {
 })
 
 describe('client logger', () => {
-  var testParams = { sample: 'test', works: true }
-  var commands = ['trace', 'debug', 'info', 'warn', 'error', 'fatal']
+  const testParams = { sample: 'test', works: true }
+  const commands = ['trace', 'debug', 'info', 'warn', 'error', 'fatal']
 
   commands.forEach(command => {
     test(`responds correctly to ${command}`, () => {
