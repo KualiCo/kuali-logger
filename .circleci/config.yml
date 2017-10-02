@@ -8,21 +8,12 @@ jobs:
       - run:
           name: Install nvm
           command: |
-            node --version
-            which node
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm --version
-            nvm install 4
-            node --version
-            which node
-            nvm install 6
-            node --version
-            which node
       - checkout
       - restore_cache:
-          key: v1-dependency-cache-{{ checksum "yarn.lock" }}
+          key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
       - run:
           name: Setup and initialize Code Climate test reporter
           command: |
@@ -35,10 +26,61 @@ jobs:
             echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
             npm config set @kuali:registry='https://npm.kuali.co'
       - run:
-          name: Install dependencies
+          name: Install node 4 dependencies
           command: yarn install
       - save_cache:
-          key: v1-dependency-cache-{{ checksum "yarn.lock" }}
+          key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run tests
+          command: yarn test
+      - run:
+          name: Setup Node 6
+          command: |
+            nvm install 6
+            rm -rfv node_modules
+      - restore_cache:
+          key: v1-dependency-cache-node6-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Node 6 dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-dependency-cache-node6-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run tests
+          command: yarn test
+      - run:
+          name: Setup Node 7
+          command: |
+            nvm install 7
+            rm -rfv node_modules
+      - restore_cache:
+          key: v1-dependency-cache-node7-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Node 7 dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-dependency-cache-node7-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run tests
+          command: yarn test
+      - run:
+          name: Setup Node 8
+          command: |
+            nvm install 8
+            rm -rfv node_modules
+      - restore_cache:
+          key: v1-dependency-cache-node8-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Node 8 dependencies
+          command: yarn install
+      - save_cache:
+          key: v1-dependency-cache-node8-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
       - run:
