@@ -6,7 +6,7 @@ jobs:
       - image: circleci/node:4
     steps:
       - run:
-          name: Install nvm and Node versions 4,6,7,8
+          name: Install NVM and Node versions 4, 6, 7, 8
           command: |
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
