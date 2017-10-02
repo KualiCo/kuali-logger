@@ -9,6 +9,8 @@ jobs:
           name: Install nvm
           command: |
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
       - checkout
       - restore_cache:
           key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
@@ -24,7 +26,7 @@ jobs:
             echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
             npm config set @kuali:registry='https://npm.kuali.co'
       - run:
-          name: Install node 4 dependencies
+          name: Install Node 4 dependencies
           command: yarn install
       - save_cache:
           key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
