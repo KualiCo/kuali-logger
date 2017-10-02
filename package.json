@@ -15,8 +15,8 @@
   "author": "kuali",
   "license": "AGPL-3.0",
   "engines": {
-    "node": ">=6",
-    "npm": ">=3"
+    "node": ">=4",
+    "npm": ">=2"
   },
   "jest": {
     "coveragePathIgnorePatterns": [

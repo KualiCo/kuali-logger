@@ -32,7 +32,8 @@ describe('client logger', () => {
     test(`responds correctly to ${command}`, () => {
       log[command](testParams, command)
       expect(capturedText).toContain(command)
-      expect(capturedText).toContain(testParams)
+      expect(capturedText).toContain(testParams.sample)
+      expect(capturedText).toContain(testParams.works)
     })
   })
 })

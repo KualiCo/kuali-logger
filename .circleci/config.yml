@@ -32,7 +32,7 @@ jobs:
             npm config set @kuali:registry='https://npm.kuali.co'
       - run:
           name: Install Node 4 dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
           paths:
@@ -48,7 +48,7 @@ jobs:
           key: v1-dependency-cache-node6-{{ checksum "yarn.lock" }}
       - run:
           name: Install Node 6 dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: v1-dependency-cache-node6-{{ checksum "yarn.lock" }}
           paths:
@@ -64,7 +64,7 @@ jobs:
           key: v1-dependency-cache-node7-{{ checksum "yarn.lock" }}
       - run:
           name: Install Node 7 dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: v1-dependency-cache-node7-{{ checksum "yarn.lock" }}
           paths:
@@ -80,7 +80,7 @@ jobs:
           key: v1-dependency-cache-node8-{{ checksum "yarn.lock" }}
       - run:
           name: Install Node 8 dependencies
-          command: yarn install
+          command: yarn install --ignore-engines
       - save_cache:
           key: v1-dependency-cache-node8-{{ checksum "yarn.lock" }}
           paths:
