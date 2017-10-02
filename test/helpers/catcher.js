@@ -1,3 +1,5 @@
+'use strict'
+
 class Catcher {
   constructor () {
     this.records = []
@@ -18,6 +20,6 @@ class Catcher {
   }
 }
 
-let catcher = new Catcher()
+var catcher = new Catcher()
 
 module.exports = catcher

@@ -3,8 +3,13 @@ jobs:
   test:
     working_directory: ~/kuali-logger
     docker:
-      - image: circleci/node:6
+      - image: circleci/node:4
     steps:
+      - run:
+          name: Checking environment
+          command: |
+            nvm --version
+            which node
       - checkout
       - restore_cache:
           key: v1-dependency-cache-{{ checksum "yarn.lock" }}

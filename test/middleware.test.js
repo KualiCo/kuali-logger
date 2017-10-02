@@ -1,18 +1,20 @@
-const express = require('express')
-const request = require('supertest')
-const catcher = require('./helpers/catcher')
+'use strict'
 
-const stream = {
+var express = require('express')
+var request = require('supertest')
+var catcher = require('./helpers/catcher')
+
+var stream = {
   name: 'testStream',
   stream: catcher,
   level: 'debug',
   outputFormat: 'json'
 }
 
-const obscureHeaders = ['obscure']
-const excludeHeaders = ['exclude']
+var obscureHeaders = ['obscure']
+var excludeHeaders = ['exclude']
 
-const log = require('../lib')({
+var log = require('../lib')({
   name: 'testLogger',
   team: 'testTeam',
   product: 'testProduct',
@@ -22,9 +24,9 @@ const log = require('../lib')({
   excludeHeaders
 })
 
-const app = express()
+var app = express()
 app.use(log.middleware)
-app.get('/', (req, res) => {
+app.get('/', function (req, res) {
   req.log.info()
   res.send('ok')
 })
@@ -33,8 +35,8 @@ beforeEach(() => {
   catcher.clear()
 })
 
-describe('middleware', () => {
-  describe('requestId', () => {
+describe('middleware', function () {
+  describe('requestId', function () {
     test('sets requestId correctly if no existing requestId', done => {
       request(app).get('/').end((err, res) => {
         if (err) throw err
