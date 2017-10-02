@@ -6,13 +6,15 @@ jobs:
       - image: circleci/node:4
     steps:
       - run:
-          name: Environment
+          name: Install nvm
           command: |
-            which node
+            node --version
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm --version
+            nvm install 4
+            node --version
       - checkout
       - restore_cache:
           key: v1-dependency-cache-{{ checksum "yarn.lock" }}
