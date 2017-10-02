@@ -9,8 +9,6 @@ jobs:
           name: Install nvm
           command: |
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
       - checkout
       - restore_cache:
           key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
@@ -38,6 +36,8 @@ jobs:
       - run:
           name: Setup Node 6
           command: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm install 6
             rm -rfv node_modules
       - restore_cache:
@@ -55,6 +55,8 @@ jobs:
       - run:
           name: Setup Node 7
           command: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm install 7
             rm -rfv node_modules
       - restore_cache:
@@ -72,6 +74,8 @@ jobs:
       - run:
           name: Setup Node 8
           command: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
             nvm install 8
             rm -rfv node_modules
       - restore_cache:
