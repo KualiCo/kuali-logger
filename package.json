@@ -1,6 +1,6 @@
 {
   "name": "kuali-logger",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "description": "Standardized logger for Kuali apps",
   "main": "lib/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
   "author": "kuali",
   "license": "AGPL-3.0",
   "engines": {
-    "node": ">=6",
-    "npm": ">=3"
+    "node": ">=4",
+    "npm": ">=2"
   },
   "jest": {
     "coveragePathIgnorePatterns": [

@@ -1,3 +1,5 @@
+'use strict'
+
 const toArray = require('lodash.toarray')
 
 // Modified copy of https://github.com/sfarthin/intercept-stdout
@@ -17,7 +19,7 @@ module.exports = (stdoutIntercept, stderrIntercept) => {
 
   process.stdout.write = (write => {
     return (string, encoding, fd) => {
-      const args = toArray(arguments)
+      let args = toArray(arguments)
       args[0] = interceptor(string, stdoutIntercept)
       // write.apply(process.stdout, args)   commented to suppress output to screen
     }
@@ -25,7 +27,7 @@ module.exports = (stdoutIntercept, stderrIntercept) => {
 
   process.stderr.write = (write => {
     return (string, encoding, fd) => {
-      const args = toArray(arguments)
+      let args = toArray(arguments)
       args[0] = interceptor(string, stderrIntercept)
       // write.apply(process.stderr, args)     commented to suppress output to screen
     }
@@ -33,7 +35,7 @@ module.exports = (stdoutIntercept, stderrIntercept) => {
 
   function interceptor (string, callback) {
     // only intercept the string
-    const result = callback(string)
+    let result = callback(string)
     if (typeof result === 'string') {
       string =
         result.replace(/\n$/, '') + (result && /\n$/.test(string) ? '\n' : '')

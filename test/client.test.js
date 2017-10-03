@@ -1,8 +1,10 @@
+'use strict'
+
 const intercept = require('./helpers/intercept-stdout')
 let capturedText = ''
 let log
 let unhookIntercept
-const originalRelease = process.release
+let originalRelease = process.release
 
 beforeAll(() => {
   process.release = undefined
@@ -30,6 +32,8 @@ describe('client logger', () => {
     test(`responds correctly to ${command}`, () => {
       log[command](testParams, command)
       expect(capturedText).toContain(command)
+      expect(capturedText).toContain(testParams.sample)
+      expect(capturedText).toContain(testParams.works)
     })
   })
 })
