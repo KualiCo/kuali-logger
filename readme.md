@@ -1,6 +1,3 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/a5a4ec53bf2652747f6a/maintainability)](https://codeclimate.com/repos/59b1c719dc3d42026d000390/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/a5a4ec53bf2652747f6a/test_coverage)](https://codeclimate.com/repos/59b1c719dc3d42026d000390/test_coverage)
-[![Known Vulnerabilities](https://snyk.io/test/github/kualico/kuali-logger/badge.svg)](https://snyk.io/test/github/kualico/kuali-logger)
 [![CircleCI](https://circleci.com/gh/KualiCo/kuali-logger/tree/master.svg?style=shield&circle-token=b8b3696e50f3bce018f444658e7bd9c738d41751)](https://circleci.com/gh/KualiCo/kuali-logger/tree/master)
 [![bitHound Overall Score](https://www.bithound.io/projects/badges/2258aae0-8f63-11e7-b68c-bd8234fdabb6/score.svg)](https://www.bithound.io/github/KualiCo/kuali-logger)
 [![bitHound Dependencies](https://www.bithound.io/projects/badges/2258aae0-8f63-11e7-b68c-bd8234fdabb6/dependencies.svg)](https://www.bithound.io/github/KualiCo/kuali-logger/master/dependencies/npm)
@@ -18,7 +15,7 @@ The logger uses Bunyan and related libraries. Bunyan docs can help with most con
 * [bunyan-prettystream](https://github.com/mrrama/node-bunyan-prettystream)
 
 ## Requirements
-* Node 6 or later
+* Node 4 or later
 
 ## Features
 * Follows [Kuali Logging Standards](https://docs.google.com/document/d/1QyKF5EM7QnlQsmIDxtShCyBkJdTI_77WY7EoVLX2Fdg/edit#)
