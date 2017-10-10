@@ -231,3 +231,18 @@ log.addSerializer({ course: courseSerializer })
 
 log.info({ course, event: 'COURSE_CREATE' }, 'New course create')
 ```
+
+## Development
+PRs are welcome!
+
+### Tests
+Test coverage must always stay at 100% in order to pass builds. To run the test suite, first install the dependencies, then run `yarn test`:
+
+```bash
+$ yarn install
+$ yarn test
+```
+
+### Continuous Integration
+
+[CircleCI](https://circleci.com) handles continuous integration. Successful updates to the master branch are automatically published to the [public npm registry](https://www.npmjs.com/package/kuali-logger).
