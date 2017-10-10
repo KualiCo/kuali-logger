@@ -1,6 +1,7 @@
 [![bitHound Overall Score](https://www.bithound.io/projects/badges/2258aae0-8f63-11e7-b68c-bd8234fdabb6/score.svg)](https://www.bithound.io/github/KualiCo/kuali-logger)
 [![bitHound Dependencies](https://www.bithound.io/projects/badges/2258aae0-8f63-11e7-b68c-bd8234fdabb6/dependencies.svg)](https://www.bithound.io/github/KualiCo/kuali-logger/master/dependencies/npm)
 [![CircleCI](https://circleci.com/gh/KualiCo/kuali-logger/tree/master.svg?style=shield&circle-token=b8b3696e50f3bce018f444658e7bd9c738d41751)](https://circleci.com/gh/KualiCo/kuali-logger/tree/master)
+[![codecov](https://codecov.io/gh/KualiCo/kuali-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/KualiCo/kuali-logger)
 
 # Kuali Logger
 
