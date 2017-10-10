@@ -28,6 +28,8 @@ The logger uses Bunyan and related libraries. Bunyan docs can help with most con
 * Ability to obscure headers
 * Ability to exclude headers
 * Standard bunyan interface
+* Automatically adds x-request-id header if not present and adds it to log outpu
+* Works when present in browser for components that run in both server and client
 * Ability to export src info *(don't use in production)*
 
 ## Usage
