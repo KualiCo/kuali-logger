@@ -20,12 +20,6 @@ jobs:
       - restore_cache:
           key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
       - run:
-          name: Setup and initialize Code Climate test reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-            ./cc-test-reporter before-build
-      - run:
           name: Configure private package registry
           command: |
             echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
@@ -91,9 +85,6 @@ jobs:
       - run:
           name: Publish code coverage results
           command: yarn coverage:publish
-      - run:
-          name: Report test results to Code Climate
-          command: ./cc-test-reporter after-build -t lcov --exit-code $?
       - store_artifacts:
           path: coverage
           destination: coverage
