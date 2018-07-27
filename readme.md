@@ -93,7 +93,14 @@ Adding the logger middleware will automatically log all request and response eve
 
 ```js
 const express = require('express')
-const log = require('kuali-logger')(config.get('log'))
+const log = require('kuali-logger')({
+  ...config.get('log'), 
+  additionalRequestFinishData: (req, res) => ({
+    userId: req.userInfo.id,
+    userName: req.userInfo.userName
+  },
+  filter: (req, res) => req.url.includes('/api/v1/health')
+)
 
 const app = express()
 app.use(log.middleware)

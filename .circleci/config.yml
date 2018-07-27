@@ -123,6 +123,7 @@ jobs:
       - run:
           name: Publish to npm
           command: npm publish
+
 workflows:
   version: 2
   test_deploy:
