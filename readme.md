@@ -1,5 +1,3 @@
-[![bitHound Overall Score](https://www.bithound.io/projects/badges/2258aae0-8f63-11e7-b68c-bd8234fdabb6/score.svg)](https://www.bithound.io/github/KualiCo/kuali-logger)
-[![bitHound Dependencies](https://www.bithound.io/projects/badges/2258aae0-8f63-11e7-b68c-bd8234fdabb6/dependencies.svg)](https://www.bithound.io/github/KualiCo/kuali-logger/master/dependencies/npm)
 [![CircleCI](https://circleci.com/gh/KualiCo/kuali-logger/tree/master.svg?style=shield&circle-token=b8b3696e50f3bce018f444658e7bd9c738d41751)](https://circleci.com/gh/KualiCo/kuali-logger/tree/master)
 [![codecov](https://codecov.io/gh/KualiCo/kuali-logger/branch/master/graph/badge.svg)](https://codecov.io/gh/KualiCo/kuali-logger)
 
@@ -43,18 +41,20 @@ const log = require('kuali-logger')(config.get('log'))
 
 These are the supported configuration options:
 
-| Option | Type | Valid values or examples | Default | Required |
-| --- | :---: | --- | :---: | :---: |
-| `name` | string | res-coi-production | | X |
-| `team` | string | res | | X |
-| `product` | string | coi | | X |
-| `environment` | string | production | | X |
-| `level` | string | `trace`, `debug`, `info`, `warn`, `error`, `fatal` | `info` ||
-| `format` | string | `short`, `long`, `simple`, `json`, `bunyan`, `pretty` | `json` ||
-| `obscureHeaders` | array of strings | `['x-newrelic-id', 'ip']` | `['authorization', 'cookie']` ||
-| `excludeHeaders` | array of strings | `['x-real-ip','x-newrelic-transaction']` | `[]` ||
-| `stream` | object |  ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }```  | bunyan-format stream ||
-| `src` | boolean | false, true *(Slows output, don't use in production)* | false ||
+| Option             | Type                                                                       | Valid values or examples                                                                 | Default                       | Required |
+| ------------------ | :------------------------------------------------------------------------: | ---------------------------------------------------------------------------------------- | :---------------------------: | :------: |
+| `name`             | string                                                                     | res-coi-production                                                                       |                               | X        |
+| `team`             | string                                                                     | res                                                                                      |                               | X        |
+| `product`          | string                                                                     | coi                                                                                      |                               | X        |
+| `environment`      | string                                                                     | production                                                                               |                               | X        |
+| `level`            | string                                                                     | `trace`, `debug`, `info`, `warn`, `error`, `fatal`                                       | `info`                        |
+| `format`           | string                                                                     | `short`, `long`, `simple`, `json`, `bunyan`, `pretty`                                    | `json`                        |
+| `obscureHeaders`   | array of strings                                                           | `['x-newrelic-id', 'ip']`                                                                | `['authorization', 'cookie']` |
+| `excludeHeaders`   | array of strings                                                           | `['x-real-ip','x-newrelic-transaction']`                                                 | `[]`                          |
+| `stream`           | object                                                                     | ```{ name: 'myStream', stream: process.stdout, level: 'debug', outputFormat: 'json' }``` | bunyan-format stream          |
+| `src`              | boolean                                                                    | false, true *(Slows output, don't use in production)*                                    | false                         |
+| `serializers`      | [object with functions](https://github.com/trentm/node-bunyan#serializers) | valid javascript serializer functions                                                    |                               |
+| `middlewareFilter` | function                                                                   |                                                                                          | valid javascript function     |          |
 
 ### Log Example
 
@@ -94,7 +94,7 @@ Adding the logger middleware will automatically log all request and response eve
 ```js
 const express = require('express')
 const log = require('kuali-logger')({
-  ...config.get('log'), 
+  ...config.get('log'),
   additionalRequestFinishData: (req, res) => ({
     userId: req.userInfo.id,
     userName: req.userInfo.userName
@@ -198,6 +198,21 @@ if(err) {
 }
 ```
 
+## Filter log output
+You can filter log output by creating a function that modifies the `req` and `res` objects and applying it to the log configuration.
+
+```js
+function myMiddlewareFilter (req, res) {
+  const pattern = /(\/readyz$|\/healthz$|\/metrics$|\/health$)/
+  return req.headers['x-synthetic'] || pattern.test(req.url)
+}
+
+module.exports = {
+  log: {
+    middlewareFilter: myMiddlewareFilter
+  }
+}
+```
 
 ## Configure a custom stream
 You can override the default stream configuration with your own [stream configuration](https://github.com/trentm/node-bunyan#streams).
@@ -220,6 +235,26 @@ const logConfig = {
 }
 
 const log = require('kuali-logger')(logConfig)
+```
+
+## Replace a standard serializer
+You can replace the built-in serializers (`req` and `res`) with your own functions.
+
+```js
+function myResSerializer(res) {
+  return {
+    statusCode: res.statusCode,
+    header: res._header
+  }
+}
+
+module.exports = {
+  log: {
+    serializers: {
+      res: myResSerializer
+    }
+  }
+}
 ```
 
 ## Add a custom serializer
