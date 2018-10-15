@@ -100,6 +100,7 @@ describe('middleware', () => {
         .set('obscure', 'test')
         .set('exclude', 'test')
         .set('Authorization', 'Bearer hey')
+        .set('X-Kuali-Authm', 'my authm')
         .end((err, res) => {
           if (err) throw err
           expect(catcher.last.req.headers.obscure).toBeNull()
@@ -107,6 +108,7 @@ describe('middleware', () => {
             false
           )
           expect(catcher.last.req.headers.authorization).toBeNull()
+          expect(catcher.last.req.headers['x-kuali-authm']).toBeNull()
           done()
         })
     })
