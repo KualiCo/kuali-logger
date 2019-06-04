@@ -20,7 +20,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-  mockConsoleMethods.forEach(mock => mock.mockRestore())
+  mockConsoleMethods.forEach(mock => consoleMocks[mock].mockRestore())
 })
 
 describe('client logger', () => {
