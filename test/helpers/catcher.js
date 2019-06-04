@@ -6,6 +6,7 @@ class Catcher {
   }
 
   write (record) {
+    if (record.msg === 'request socket closed') return
     this.records.push(record)
   }
 
@@ -15,7 +16,7 @@ class Catcher {
 
   get last () {
     if (this.records.length > 0) {
-      return JSON.parse(this.records[this.records.length - 1])
+      return this.records[this.records.length - 1]
     }
   }
 }

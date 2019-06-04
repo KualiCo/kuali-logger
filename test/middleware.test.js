@@ -10,6 +10,7 @@ const stream = {
   name: 'testStream',
   stream: catcher,
   level: 'debug',
+  type: 'raw',
   outputFormat: 'json'
 }
 
