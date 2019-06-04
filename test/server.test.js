@@ -1,3 +1,9 @@
+/**
+ * @testEnvironment node
+ */
+
+/* eslint-env jest */
+
 const catcher = require('./helpers/catcher')
 
 const baseConfig = {

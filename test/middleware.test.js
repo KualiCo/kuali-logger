@@ -16,7 +16,7 @@ const stream = {
 const obscureHeaders = ['obscure']
 const excludeHeaders = ['exclude']
 
-function createApp(customConfig) {
+function createApp (customConfig) {
   const log = require('../lib')(
     Object.assign(
       {
