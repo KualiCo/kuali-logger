@@ -19,10 +19,6 @@ jobs:
       - run:
           name: Run tests
           command: yarn test
-  test-node6:
-    <<: *default
-    docker:
-      - image: circleci/node:6
   test-node8:
     <<: *default
     docker:
