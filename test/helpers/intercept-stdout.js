@@ -18,7 +18,7 @@ module.exports = (stdoutIntercept, stderrIntercept) => {
   const oldStdErrWrite = process.stderr.write
 
   process.stdout.write = (write => {
-    return (string, encoding, fd) => {
+    return function (string, encoding, fd) {
       let args = toArray(arguments)
       args[0] = interceptor(string, stdoutIntercept)
       // write.apply(process.stdout, args)   commented to suppress output to screen
@@ -26,7 +26,7 @@ module.exports = (stdoutIntercept, stderrIntercept) => {
   })(process.stdout.write)
 
   process.stderr.write = (write => {
-    return (string, encoding, fd) => {
+    return function (string, encoding, fd) {
       let args = toArray(arguments)
       args[0] = interceptor(string, stderrIntercept)
       // write.apply(process.stderr, args)     commented to suppress output to screen
