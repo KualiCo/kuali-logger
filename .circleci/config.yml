@@ -24,48 +24,6 @@ jobs:
             echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
             npm config set @kuali:registry='https://npm.kuali.co'
       - run:
-          name: Switch to Node 6
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 6
-      - restore_cache:
-          key: v1-dependency-cache-node6-{{ checksum "package.json" }}
-      - run:
-          name: Install Node 6 dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependency-cache-node6-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Run Node 6 tests
-          command: npm test
-      - run:
-          name: Cleanup Node 6
-          command: rm -rfv node_modules
-      - run:
-          name: Switch to Node 7
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 7
-      - restore_cache:
-          key: v1-dependency-cache-node7-{{ checksum "package.json" }}
-      - run:
-          name: Install Node 7 dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependency-cache-node7-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Run Node 7 tests
-          command: npm test
-      - run:
-          name: Cleanup Node 7
-          command: rm -rfv node_modules
-      - run:
           name: Switch to Node 8
           command: |
             export NVM_DIR="$HOME/.nvm"
@@ -82,6 +40,42 @@ jobs:
             - node_modules
       - run:
           name: Run Node 8 tests
+          command: npm test
+      - run:
+          name: Switch to Node 10
+          command: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            nvm use 10
+      - restore_cache:
+          key: v1-dependency-cache-node10-{{ checksum "package.json" }}
+      - run:
+          name: Install Node 10 dependencies
+          command: npm install
+      - save_cache:
+          key: v1-dependency-cache-node10-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run Node 10 tests
+          command: npm test
+      - run:
+          name: Switch to Node 12
+          command: |
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            nvm use 12
+      - restore_cache:
+          key: v1-dependency-cache-node12-{{ checksum "package.json" }}
+      - run:
+          name: Install Node 12 dependencies
+          command: npm install
+      - save_cache:
+          key: v1-dependency-cache-node12-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run Node 12 tests
           command: npm test
       - run:
           name: Publish code coverage results
