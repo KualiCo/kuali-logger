@@ -1,6 +1,6 @@
 {
   "name": "kuali-logger",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Standardized logger for Kuali apps",
   "main": "lib/index.js",
   "scripts": {
