@@ -6,7 +6,7 @@ jobs:
       - image: circleci/node:4
     steps:
       - run:
-          name: Install NVM and Node versions 4, 6, 7, 8
+          name: Install NVM and Node versions 6, 7, 8
           command: |
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
@@ -23,27 +23,6 @@ jobs:
           command: |
             echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
             npm config set @kuali:registry='https://npm.kuali.co'
-      - run:
-          name: Switch to Node 4
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 4
-      - restore_cache:
-          key: v1-dependency-cache-node4-{{ checksum "package.json" }}
-      - run:
-          name: Install Node 4 dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependency-cache-node4-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Run Node 4 tests
-          command: npm test
-      - run:
-          name: Cleanup Node 4
-          command: rm -rfv node_modules
       - run:
           name: Switch to Node 6
           command: |
