@@ -50,13 +50,11 @@ workflows:
   version: 2
   test_deploy:
     jobs:
-      - test-node6
       - test-node8
       - test-node10
       - test-node12
       - deploy:
           requires:
-            - test-node6
             - test-node8
             - test-node10
             - test-node12
