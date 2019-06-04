@@ -1,91 +1,45 @@
 version: 2
 jobs:
-  test:
+  test: &default
     working_directory: ~/kuali-logger
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:latest
     steps:
-      - run:
-          name: Install NVM and Node versions 8, 10, 12
-          command: |
-            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm install 8
-            nvm install 10
-            nvm install 12
       - checkout
       - restore_cache:
-          key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
+          key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Configure private package registry
           command: |
             echo "//npm.kuali.co/:_authToken=\"$NPM_TOKEN\"" > .npmrc
             npm config set @kuali:registry='https://npm.kuali.co'
       - run:
-          name: Switch to Node 8
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 8
-      - restore_cache:
-          key: v1-dependency-cache-node8-{{ checksum "package.json" }}
+          name: Install dependencies
+          command: yarn
       - run:
-          name: Install Node 8 dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependency-cache-node8-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Run Node 8 tests
-          command: npm test
-      - run:
-          name: Switch to Node 10
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 10
-      - restore_cache:
-          key: v1-dependency-cache-node10-{{ checksum "package.json" }}
-      - run:
-          name: Install Node 10 dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependency-cache-node10-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Run Node 10 tests
-          command: npm test
-      - run:
-          name: Switch to Node 12
-          command: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm use 12
-      - restore_cache:
-          key: v1-dependency-cache-node12-{{ checksum "package.json" }}
-      - run:
-          name: Install Node 12 dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependency-cache-node12-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Run Node 12 tests
-          command: npm test
-      - run:
-          name: Publish code coverage results
-          command: yarn coverage:publish
-      - store_artifacts:
-          path: coverage
-          destination: coverage
+          name: Run tests
+          command: yarn test
+  test-node6:
+    <<: *default
+    docker:
+      - image: circleci/node:6
+  test-node8:
+    <<: *default
+    docker:
+      - image: circleci/node:8
+  test-node10:
+    <<: *default
+    docker:
+      - image: circleci/node:10
+  test-node12:
+    <<: *default
+    docker:
+      - image: circleci/node:12
+
   deploy:
     working_directory: ~/kuali-logger
     docker:
-      - image: circleci/node:6
+      - image: circleci/node:latest
     steps:
       - checkout
       - run:
@@ -100,10 +54,16 @@ workflows:
   version: 2
   test_deploy:
     jobs:
-      - test
+      - test-node6
+      - test-node8
+      - test-node10
+      - test-node12
       - deploy:
           requires:
-            - test
+            - test-node6
+            - test-node8
+            - test-node10
+            - test-node12
           filters:
             branches:
               only: master
