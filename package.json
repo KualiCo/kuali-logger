@@ -1,6 +1,6 @@
 {
   "name": "kuali-logger",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Standardized logger for Kuali apps",
   "main": "lib/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
   "author": "kuali",
   "license": "AGPL-3.0",
   "engines": {
-    "node": ">=4",
-    "npm": ">=2"
+    "node": ">=8",
+    "npm": ">=3"
   },
   "jest": {
     "coveragePathIgnorePatterns": [
@@ -45,11 +45,11 @@
     "bunyan-prettystream": "^0.1.3"
   },
   "devDependencies": {
-    "codecov": "^2.3.0",
-    "express": "^4.15.4",
-    "jest": "^21.0.1",
+    "codecov": "^3.5.0",
+    "express": "^4.17.1",
+    "jest": "^24.8.0",
     "lodash.toarray": "^4.4.0",
-    "standard": "^10.0.3",
-    "supertest": "^3.0.0"
+    "standard": "^12.0.1",
+    "supertest": "^4.0.2"
   }
 }

@@ -1,3 +1,9 @@
+/**
+ * @testEnvironment node
+ */
+
+/* eslint-env jest */
+
 const catcher = require('./helpers/catcher')
 
 const baseConfig = {
@@ -15,6 +21,7 @@ function initTestStream (log) {
     name: 'testStream',
     stream: catcher,
     level: 'debug',
+    type: 'raw',
     outputFormat: 'json'
   })
 }

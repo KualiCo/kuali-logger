@@ -1,39 +1,39 @@
+/* eslint-env jest */
+
 'use strict'
 
-const intercept = require('./helpers/intercept-stdout')
-let capturedText = ''
-let log
-let unhookIntercept
-let originalRelease = process.release
+const mockConsoleMethods = ['trace', 'log', 'info', 'warn', 'error']
+let consoleMocks, log
 
 beforeAll(() => {
-  process.release = undefined
+  const originalProcess = process
+  global.process = undefined
   log = require('../lib')()
-
-  unhookIntercept = intercept(text => {
-    capturedText += text
-  })
-})
-
-afterAll(() => {
-  unhookIntercept()
-  process.release = originalRelease
+  global.process = originalProcess
 })
 
 beforeEach(() => {
-  capturedText = ''
+  consoleMocks = mockConsoleMethods.reduce((mocks, method) => {
+    mocks[method] = jest.spyOn(console, method).mockImplementation(() => {})
+    return mocks
+  }, {})
+})
+
+afterEach(() => {
+  mockConsoleMethods.forEach(mock => consoleMocks[mock].mockRestore())
 })
 
 describe('client logger', () => {
-  const testParams = { sample: 'test', works: true }
-  const commands = ['trace', 'debug', 'info', 'warn', 'error', 'fatal']
-
-  commands.forEach(command => {
-    test(`responds correctly to ${command}`, () => {
-      log[command](testParams, command)
-      expect(capturedText).toContain(command)
-      expect(capturedText).toContain(testParams.sample)
-      expect(capturedText).toContain(testParams.works)
-    })
+  test.each([
+    ['trace', 'trace'],
+    ['debug', 'log'],
+    ['info', 'info'],
+    ['warn', 'warn'],
+    ['error', 'error'],
+    ['fatal', 'error']
+  ])('response correctly to %s', (command, consoleMethod) => {
+    log[command]({ sample: 'test', works: true }, command)
+    const mock = consoleMocks[consoleMethod]
+    expect(mock).toHaveBeenCalledWith({ sample: 'test', works: true }, command)
   })
 })

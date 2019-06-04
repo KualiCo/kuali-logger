@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 'use strict'
 
 const express = require('express')
@@ -8,6 +10,7 @@ const stream = {
   name: 'testStream',
   stream: catcher,
   level: 'debug',
+  type: 'raw',
   outputFormat: 'json'
 }
 
@@ -15,15 +18,20 @@ const obscureHeaders = ['obscure']
 const excludeHeaders = ['exclude']
 
 function createApp (customConfig) {
-  const log = require('../lib')(Object.assign({
-    name: 'testLogger',
-    team: 'testTeam',
-    product: 'testProduct',
-    environment: 'testEnvironment',
-    stream,
-    obscureHeaders,
-    excludeHeaders
-  }, customConfig))
+  const log = require('../lib')(
+    Object.assign(
+      {
+        name: 'testLogger',
+        team: 'testTeam',
+        product: 'testProduct',
+        environment: 'testEnvironment',
+        stream,
+        obscureHeaders,
+        excludeHeaders
+      },
+      customConfig
+    )
+  )
 
   const app = express()
   app.use(log.middleware)
@@ -43,22 +51,27 @@ describe('middleware', () => {
   describe('requestId', () => {
     test('sets requestId correctly if no existing requestId', done => {
       const app = createApp()
-      request(app).get('/').end((err, res) => {
-        if (err) throw err
-        expect(res.headers.hasOwnProperty('x-request-id')).toBe(true)
-        expect(catcher.last.req.requestId).not.toBeNull()
-        done()
-      })
+      request(app)
+        .get('/')
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.headers.hasOwnProperty('x-request-id')).toBe(true)
+          expect(catcher.last.req.requestId).not.toBeNull()
+          done()
+        })
     })
 
     test('leaves existing requestId unchanged', done => {
       const app = createApp()
-      request(app).get('/').set('X-Request-Id', 'test').end((err, res) => {
-        if (err) throw err
-        expect(res.headers['x-request-id']).toBe('test')
-        expect(catcher.last.requestId).toBe('test')
-        done()
-      })
+      request(app)
+        .get('/')
+        .set('X-Request-Id', 'test')
+        .end((err, res) => {
+          if (err) throw err
+          expect(res.headers['x-request-id']).toBe('test')
+          expect(catcher.last.requestId).toBe('test')
+          done()
+        })
     })
   })
 
@@ -78,7 +91,11 @@ describe('middleware', () => {
         })
     })
     test('adds app specific fields', done => {
-      const app = createApp({additionalRequestFinishData: req => ({appSpecificReq: req.appSpecificReq})})
+      const app = createApp({
+        additionalRequestFinishData: req => ({
+          appSpecificReq: req.appSpecificReq
+        })
+      })
       request(app)
         .get('/')
         .set('x-kuali-tenant', 'tenant')
@@ -114,7 +131,9 @@ describe('middleware', () => {
 
   describe('filters requests', () => {
     test('filters requests based on filter function', done => {
-      const app = createApp({middlewareFilter: req => req.url.includes('filtered')})
+      const app = createApp({
+        middlewareFilter: req => req.url.includes('filtered')
+      })
       request(app)
         .get('/filtered')
         .end((err, res) => {
