@@ -3,18 +3,17 @@ jobs:
   test:
     working_directory: ~/kuali-logger
     docker:
-      - image: circleci/node:4
+      - image: circleci/node:10
     steps:
       - run:
-          name: Install NVM and Node versions 6, 7, 8
+          name: Install NVM and Node versions 8, 10, 12
           command: |
             curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-            nvm install 4
-            nvm install 6
-            nvm install 7
             nvm install 8
+            nvm install 10
+            nvm install 12
       - checkout
       - restore_cache:
           key: v1-dependency-cache-node4-{{ checksum "yarn.lock" }}
