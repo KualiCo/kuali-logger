@@ -96,7 +96,7 @@ describe('server logger', () => {
   describe('src', () => {
     test('src not output by default', () => {
       log.info('test')
-      expect(catcher.last.hasOwnProperty('src')).toBe(false)
+      expect(catcher.last).not.toHaveProperty('src')
     })
 
     test('output src object', () => {
@@ -105,7 +105,7 @@ describe('server logger', () => {
       )
       initTestStream(log4)
       log4.info('test')
-      expect(catcher.last.hasOwnProperty('src')).toBe(true)
+      expect(catcher.last).toHaveProperty('src')
     })
   })
 

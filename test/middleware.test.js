@@ -55,7 +55,7 @@ describe('middleware', () => {
         .get('/')
         .end((err, res) => {
           if (err) throw err
-          expect(res.headers.hasOwnProperty('x-request-id')).toBe(true)
+          expect(res.headers).toHaveProperty('x-request-id')
           expect(catcher.last.req.requestId).not.toBeNull()
           done()
         })
@@ -68,7 +68,7 @@ describe('middleware', () => {
         .set('X-Request-Id', 'test')
         .end((err, res) => {
           if (err) throw err
-          expect(res.headers['x-request-id']).toBe('test')
+          expect(res.headers).toHaveProperty('x-request-id', 'test')
           expect(catcher.last.requestId).toBe('test')
           done()
         })
@@ -120,9 +120,7 @@ describe('middleware', () => {
         .end((err, res) => {
           if (err) throw err
           expect(catcher.last.req.headers.obscure).toBeNull()
-          expect(catcher.last.req.headers.hasOwnProperty('exclude')).toEqual(
-            false
-          )
+          expect(catcher.last.req.headers).not.toHaveProperty('exclude')
           expect(catcher.last.req.headers.authorization).toBeNull()
           done()
         })
