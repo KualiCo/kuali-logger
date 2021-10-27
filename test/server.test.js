@@ -33,28 +33,6 @@ beforeEach(() => {
 })
 
 describe('server logger', () => {
-  describe('Should have multiple streams when beeline is in log config', () => {
-    log.beeline = {}
-    log.addStream({
-      name: 'beeline-logger',
-      type: 'raw',
-      stream: {
-        write: data => {
-          if (data.event === 'REQUEST') return
-          console.log('multiple Streams')
-        }
-      },
-      level: 'debug'
-    })
-    console.log('new logger', log)
-    test('That beeline is in config', () => {
-      expect(log.beeline).toStrictEqual({})
-    })
-    test('that multiple streams exist', () => {
-      expect(log.streams.length).toEqual(2)
-    })
-  })
-
   describe('outputs standard fields', () => {
     beforeEach(() => {
       log.info({ event: 'what' }, 'hey')
