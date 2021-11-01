@@ -5,6 +5,7 @@
 /* eslint-env jest */
 
 const catcher = require('./helpers/catcher')
+const { flatten } = require('../lib/server')
 
 const baseConfig = {
   name: 'testLogger',
@@ -120,21 +121,6 @@ describe('server logger', () => {
   })
 
   describe('flatten object', () => {
-    function flatten (obj, keys = []) {
-      let result = {}
-      for (const key in obj) {
-        if (typeof obj[key] !== 'object') {
-          result[[...keys, key].join('.')] = obj[key]
-        } else {
-          result = { ...result, ...flatten(obj[key], [...keys, key]) }
-        }
-      }
-      return result
-    }
-    test('Config should have api in it', () => {
-      const newLog = { ...log, api: {} }
-      expect(newLog.api).toStrictEqual({})
-    })
     test('A nested object passed into flatten function should be flat', () => {
       const data = {
         name: 'app-integrations-api',
