@@ -118,4 +118,64 @@ describe('server logger', () => {
       expect(catcher.last.event).toBe('error')
     })
   })
+
+  describe('flatten object', () => {
+    function flatten (obj, keys = []) {
+      let result = {}
+      for (const key in obj) {
+        if (typeof obj[key] !== 'object') {
+          result[[...keys, key].join('.')] = obj[key]
+        } else {
+          result = { ...result, ...flatten(obj[key], [...keys, key]) }
+        }
+      }
+      return result
+    }
+    test('Config should have api in it', () => {
+      const newLog = { ...log, api: {} }
+      expect(newLog.api).toStrictEqual({})
+    })
+    test('A nested object passed into flatten function should be flat', () => {
+      const data = {
+        name: 'app-integrations-api',
+        team: 'app',
+        product: 'integrations-api',
+        environment: 'default',
+        hostname: 'f874aec7d23a',
+        pid: 54,
+        requestId: '97eb4ba0-3b5d-11ec-adac-3ba409dd4e94',
+        level: 50,
+        err: {
+          message: 'getaddrinfo ENOTFOUND swapi.devtest',
+          name: 'Error',
+          stack:
+            'Error: getaddrinfo ENOTFOUND swapi.devtest\n' +
+            '    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)\n' +
+            '    at GetAddrInfoReqWrap.callbackTrampoline (internal/async_hooks.js:130:17)',
+          code: 'ENOTFOUND',
+          signal: undefined
+        },
+        msg: 'Error in Integrations API',
+        v: 0
+      }
+      expect(flatten(data)).toStrictEqual({
+        name: 'app-integrations-api',
+        team: 'app',
+        product: 'integrations-api',
+        environment: 'default',
+        hostname: 'f874aec7d23a',
+        pid: 54,
+        requestId: '97eb4ba0-3b5d-11ec-adac-3ba409dd4e94',
+        level: 50,
+        'err.message': 'getaddrinfo ENOTFOUND swapi.devtest',
+        'err.name': 'Error',
+        'err.stack':
+          'Error: getaddrinfo ENOTFOUND swapi.devtest\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (internal/async_hooks.js:130:17)',
+        'err.code': 'ENOTFOUND',
+        'err.signal': undefined,
+        msg: 'Error in Integrations API',
+        v: 0
+      })
+    })
+  })
 })
