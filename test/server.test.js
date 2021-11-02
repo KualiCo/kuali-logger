@@ -153,12 +153,8 @@ describe('server logger', () => {
         pid: 54,
         requestId: '97eb4ba0-3b5d-11ec-adac-3ba409dd4e94',
         level: 50,
-        'err.message': 'getaddrinfo ENOTFOUND swapi.devtest',
-        'err.name': 'Error',
-        'err.stack':
-          'Error: getaddrinfo ENOTFOUND swapi.devtest\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)\n    at GetAddrInfoReqWrap.callbackTrampoline (internal/async_hooks.js:130:17)',
-        'err.code': 'ENOTFOUND',
-        'err.signal': undefined,
+        err:
+          '{"message":"getaddrinfo ENOTFOUND swapi.devtest","name":"Error","stack":"Error: getaddrinfo ENOTFOUND swapi.devtest\\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)\\n    at GetAddrInfoReqWrap.callbackTrampoline (internal/async_hooks.js:130:17)","code":"ENOTFOUND"}',
         msg: 'Error in Integrations API',
         v: 0
       })
@@ -189,7 +185,7 @@ describe('server logger', () => {
       }
       const flattenedData = flatten(data)
       expect(flattenedData.msg).toStrictEqual(null)
-      expect(flattenedData.level).toStrictEqual([50, 1, 2])
+      expect(flattenedData.level).toEqual('[50,1,2]')
     })
   })
 })
