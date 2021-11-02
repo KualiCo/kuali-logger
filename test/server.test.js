@@ -5,6 +5,7 @@
 /* eslint-env jest */
 
 const catcher = require('./helpers/catcher')
+const { flatten } = require('../lib/server')
 
 const baseConfig = {
   name: 'testLogger',
@@ -116,6 +117,75 @@ describe('server logger', () => {
       log.error({ err, event: 'error' })
       expect(catcher.last.msg).toBe(errMessage)
       expect(catcher.last.event).toBe('error')
+    })
+  })
+
+  describe('flatten object', () => {
+    test('A nested object passed into flatten function should be flat', () => {
+      const data = {
+        name: 'app-integrations-api',
+        team: 'app',
+        product: 'integrations-api',
+        environment: 'default',
+        hostname: 'f874aec7d23a',
+        pid: 54,
+        requestId: '97eb4ba0-3b5d-11ec-adac-3ba409dd4e94',
+        level: 50,
+        err: {
+          message: 'getaddrinfo ENOTFOUND swapi.devtest',
+          name: 'Error',
+          stack:
+            'Error: getaddrinfo ENOTFOUND swapi.devtest\n' +
+            '    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)\n' +
+            '    at GetAddrInfoReqWrap.callbackTrampoline (internal/async_hooks.js:130:17)',
+          code: 'ENOTFOUND',
+          signal: undefined
+        },
+        msg: 'Error in Integrations API',
+        v: 0
+      }
+      expect(flatten(data)).toStrictEqual({
+        name: 'app-integrations-api',
+        team: 'app',
+        product: 'integrations-api',
+        environment: 'default',
+        hostname: 'f874aec7d23a',
+        pid: 54,
+        requestId: '97eb4ba0-3b5d-11ec-adac-3ba409dd4e94',
+        level: 50,
+        err:
+          '{"message":"getaddrinfo ENOTFOUND swapi.devtest","name":"Error","stack":"Error: getaddrinfo ENOTFOUND swapi.devtest\\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)\\n    at GetAddrInfoReqWrap.callbackTrampoline (internal/async_hooks.js:130:17)","code":"ENOTFOUND"}',
+        msg: 'Error in Integrations API',
+        v: 0
+      })
+    })
+
+    test('isPlainObject function should ensure that arrays and null values are passed through properly', () => {
+      const data = {
+        name: 'app-integrations-api',
+        team: 'app',
+        product: 'integrations-api',
+        environment: 'default',
+        hostname: 'f874aec7d23a',
+        pid: 54,
+        requestId: '97eb4ba0-3b5d-11ec-adac-3ba409dd4e94',
+        level: [50, 1, 2],
+        err: {
+          message: 'getaddrinfo ENOTFOUND swapi.devtest',
+          name: 'Error',
+          stack:
+            'Error: getaddrinfo ENOTFOUND swapi.devtest\n' +
+            '    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:71:26)\n' +
+            '    at GetAddrInfoReqWrap.callbackTrampoline (internal/async_hooks.js:130:17)',
+          code: 'ENOTFOUND',
+          signal: undefined
+        },
+        msg: null,
+        v: 0
+      }
+      const flattenedData = flatten(data)
+      expect(flattenedData.msg).toStrictEqual(null)
+      expect(flattenedData.level).toEqual('[50,1,2]')
     })
   })
 })
